@@ -60,6 +60,13 @@ export default function StudentForm() {
           >
             <option>Degree Normal</option>
             <option>Degree Urgent</option>
+            <option>Degree Normal to Urgent</option>
+            <option>Degree duplicate Normal</option>
+            <option>Degree duplicate  Urgent</option>
+            <option>Degree Correction</option>
+            <option>Degree + Migration</option>
+            <option>Provisional Certificate</option>
+            <option>Migration Certification </option>
           </select>
         </div>
         {[
