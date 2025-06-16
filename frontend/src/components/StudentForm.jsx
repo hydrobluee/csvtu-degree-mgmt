@@ -66,7 +66,7 @@ export default function StudentForm() {
             <option>Degree Correction</option>
             <option>Degree + Migration</option>
             <option>Provisional Certificate</option>
-            <option>Migration Certification </option>
+            <option>Migration Certification</option>
           </select>
         </div>
         {[
