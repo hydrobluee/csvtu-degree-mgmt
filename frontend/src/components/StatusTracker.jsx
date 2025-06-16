@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import api from "../services/api";
 
 export default function StatusTracker() {
-  const [enrollment, setEnrollment] = useState("");
+  const [rollNo, setRollNo] = useState("");
   const [status, setStatus] = useState(null);
 
   const handleLookup = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.get(`/applications/enrollment/${enrollment}`);
+      const res = await api.get(`/applications/roll/${rollNo}`);
       setStatus(res.data.currentStatus);
     } catch {
       setStatus("Not found");
@@ -20,9 +20,9 @@ export default function StatusTracker() {
       <h2 className="text-xl mb-4">Check Application Status</h2>
       <form onSubmit={handleLookup} className="flex space-x-2">
         <input
-          value={enrollment}
-          onChange={(e) => setEnrollment(e.target.value)}
-          placeholder="Enrollment No."
+          value={rollNo}
+          onChange={(e) => setRollNo(e.target.value)}
+          placeholder="Roll No."
           className="border p-1 flex-grow"
         />
         <button type="submit" className="bg-green-600 text-white px-3 rounded">
