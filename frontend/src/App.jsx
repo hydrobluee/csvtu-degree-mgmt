@@ -8,6 +8,13 @@ import DispatchDashboard from "./components/DispatchDashboard";
 
 function App() {
   return (
+    <>
+    <img
+        src="../public/csvtuLogo.jpg"
+        alt="University Banner"
+        className="w-full h-36 object-cover"
+      />
+
     <div className="p-6 space-y-4">
       <nav className="flex justify-end space-x-4">
         <NavLink to="/" className="text-blue-600">
@@ -34,6 +41,7 @@ function App() {
         <Route path="/dispatch" element={<DispatchDashboard />} />
       </Routes>
     </div>
+    </>
   );
 }
 
