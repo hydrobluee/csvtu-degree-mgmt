@@ -9,7 +9,7 @@ import DispatchDashboard from "./components/DispatchDashboard";
 function App() {
   return (
     <div className="p-6 space-y-4">
-      <nav className="flex space-x-4">
+      <nav className="flex justify-end space-x-4">
         <NavLink to="/" className="text-blue-600">
           Student Form
         </NavLink>
