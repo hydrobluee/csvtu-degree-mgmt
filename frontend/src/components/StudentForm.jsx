@@ -113,7 +113,7 @@ export default function StudentForm() {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
+              className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition"
             >
               Submit
             </button>
@@ -123,3 +123,4 @@ export default function StudentForm() {
     </div>
   );
 }
+// This component provides a form for students to submit their applications or enquiries.
