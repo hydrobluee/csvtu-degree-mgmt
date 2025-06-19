@@ -3,13 +3,13 @@ import api from "../services/api";
 
 export default function StudentForm() {
   const initial = {
-    enquiryType: "New Application",
-    certificateType: "Degree Normal",
-    enrollmentNo: "",
+    type: "New Application",
+    certificate_type: "Degree Normal",
+    enrollment_number: "",
     branch: "",
-    rollNo: "",
-    name: "",
-    passingYear: "",
+    roll_number: "",
+    student_name: "",
+    passing_year: "",
     course: "",
     division: "",
     mobile: "",
@@ -49,8 +49,8 @@ export default function StudentForm() {
             <div>
               <label className="block text-gray-700 mb-1">Type</label>
               <select
-                name="enquiryType"
-                value={form.enquiryType}
+                name="type"
+                value={form.type}
                 onChange={handleChange}
                 className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
@@ -63,8 +63,8 @@ export default function StudentForm() {
                 Certificate Type
               </label>
               <select
-                name="certificateType"
-                value={form.certificateType}
+                name="certificate_type"
+                value={form.certificate_type}
                 onChange={handleChange}
                 className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-200"
               >
@@ -84,15 +84,15 @@ export default function StudentForm() {
           {/* Section 2: Personal & Academic Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { name: "enrollmentNo", label: "Enrollment No" },
-              { name: "rollNo", label: "Roll No" },
-              { name: "name", label: "Name" },
+              { name: "enrollment_number", label: "Enrollment No" },
+              { name: "roll_number", label: "Roll No" },
+              { name: "student_name", label: "Name" },
               { name: "branch", label: "Branch" },
               { name: "course", label: "Course" },
               { name: "division", label: "Division" },
-              { name: "passingYear", label: "Passing Year" },
+              { name: "passing_year", label: "Passing Year" },
               { name: "mobile", label: "Mobile" },
-              { name: "feesDate", label: "Fees Date", type: "date" },
+              { name: "fees_date", label: "Fees Date", type: "date" },
               { name: "email", label: "Email", type: "email" },
             ].map(({ name, label, type = "text" }) => (
               <div key={name}>

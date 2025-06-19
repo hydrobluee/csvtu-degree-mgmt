@@ -1,6 +1,8 @@
 import * as AppModel from "../models/applicationModel.js";
 
 export async function create(req, res) {
+  console.log("📥 Received application data:", req.body);
+
   try {
     const id = await AppModel.createApplication(req.body);
     res.status(201).json({ id });
