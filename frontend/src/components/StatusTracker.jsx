@@ -6,10 +6,13 @@ export default function StatusTracker() {
   const [status, setStatus] = useState(null);
 
   const handleLookup = async (e) => {
+    console.log("Looking up status for roll number:", rollNo);
     e.preventDefault();
     try {
       const res = await api.get(`/applications/roll/${rollNo}`);
-      setStatus(res.data.currentStatus);
+      console.log("Status response:", res.data);
+      console.log(status);
+      setStatus(res.data.current_status);
     } catch {
       setStatus("Not found");
     }

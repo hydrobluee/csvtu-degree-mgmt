@@ -23,6 +23,7 @@ export default function StudentForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting form:", form);
     try {
       await api.post("/applications", form);
       setMessage("Application submitted successfully!");
@@ -40,9 +41,7 @@ export default function StudentForm() {
           Student Application / Enquiry
         </h2>
 
-        {message && (
-          <p className="text-center text-green-600">{message}</p>
-        )}
+        {message && <p className="text-center text-green-600">{message}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Section 1: Type & Certificate */}
@@ -86,15 +85,15 @@ export default function StudentForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { name: "enrollmentNo", label: "Enrollment No" },
-              { name: "rollNo",       label: "Roll No" },
-              { name: "name",         label: "Name" },
-              { name: "branch",       label: "Branch" },
-              { name: "course",       label: "Course" },
-              { name: "division",     label: "Division" },
-              { name: "passingYear",  label: "Passing Year" },
-              { name: "mobile",       label: "Mobile" },
-              { name: "feesDate",     label: "Fees Date", type: "date" },
-              { name: "email",        label: "Email",      type: "email" },
+              { name: "rollNo", label: "Roll No" },
+              { name: "name", label: "Name" },
+              { name: "branch", label: "Branch" },
+              { name: "course", label: "Course" },
+              { name: "division", label: "Division" },
+              { name: "passingYear", label: "Passing Year" },
+              { name: "mobile", label: "Mobile" },
+              { name: "feesDate", label: "Fees Date", type: "date" },
+              { name: "email", label: "Email", type: "email" },
             ].map(({ name, label, type = "text" }) => (
               <div key={name}>
                 <label className="block text-gray-700 mb-1">{label}</label>
