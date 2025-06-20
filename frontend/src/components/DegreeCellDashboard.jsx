@@ -1,56 +1,121 @@
-import React, { useEffect, useState } from "react";
-import api from "../services/api";
+import React, { useEffect, useState } from 'react';
+import api from '../services/api';
+import { Tab } from '@headlessui/react';
+import { ChevronDownIcon, EyeIcon } from 'lucide-react';
 
-export default function DegreeCellDashboard() {
+const statuses = ['To-Do', 'Print', 'Dispatch'];
+
+export default function DepartmentDashboard() {
   const [apps, setApps] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
     fetchApps();
   }, []);
+
   const fetchApps = async () => {
-    const res = await api.get("/applications?status=Forwarded to Degree Cell");
-    setApps(res.data);
+    try {
+      const res = await api.get('/applications');
+      setApps(res.data || []);
+    } catch (err) {
+      console.error('Failed to fetch applications:', err);
+    }
   };
 
   const updateStatus = async (id, newStatus) => {
-    await api.put(`/applications/${id}`, { currentStatus: newStatus });
-    fetchApps();
+    try {
+      await api.put(`/applications/${id}`, { current_status: newStatus });
+      fetchApps();
+    } catch (err) {
+      console.error('Failed to update status:', err);
+    }
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-xl mb-4">Degree Cell Dashboard</h2>
-      <table className="w-full table-auto">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Enrollment</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {apps.map((a) => (
-            <tr key={a.id} className="border-t">
-              <td>{a.name}</td>
-              <td>{a.enrollmentNo}</td>
-              <td className="space-x-2">
-                <button
-                  onClick={() => updateStatus(a.id, "Verified by Degree Cell")}
-                  className="px-2 py-1 bg-blue-500 text-white rounded"
-                >
-                  Verify
-                </button>
-                <button
-                  onClick={() => updateStatus(a.id, "Ready for Dispatch")}
-                  className="px-2 py-1 bg-green-500 text-white rounded"
-                >
-                  Mark Checked
-                </button>
-              </td>
-            </tr>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Department Dashboard</h1>
+
+      <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
+        <Tab.List className="flex space-x-2 mb-6">
+          {statuses.map(status => (
+            <Tab
+              key={status}
+              className={({ selected }) =>
+                `px-4 py-2 font-medium rounded-lg transition-colors ${
+                  selected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+                }`
+              }
+            >
+              {status}
+            </Tab>
           ))}
-        </tbody>
-      </table>
+        </Tab.List>
+
+        <Tab.Panels>
+          {statuses.map((status, idx) => {
+            const filteredApps = apps.filter(
+              app => app.current_status === status
+            );
+
+            return (
+              <Tab.Panel key={status} className="overflow-x-auto">
+                {filteredApps.length ? (
+                  <table className="w-full table-auto border-collapse">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="px-3 py-2">Type</th>
+                        <th className="px-3 py-2">Certificate Type</th>
+                        <th className="px-3 py-2">Roll No</th>
+                        <th className="px-3 py-2">Enrollment No</th>
+                        <th className="px-3 py-2">Name</th>
+                        <th className="px-3 py-2">Status</th>
+                        <th className="px-3 py-2">Passing Year</th>
+                        <th className="px-3 py-2">View Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredApps.map(app => (
+                        <tr key={app.id} className="border-t">
+                          <td className="px-3 py-2">{app.type}</td>
+                          <td className="px-3 py-2">{app.certificate_type}</td>
+                          <td className="px-3 py-2">{app.roll_number}</td>
+                          <td className="px-3 py-2">{app.enrollment_number}</td>
+                          <td className="px-3 py-2">{app.student_name}</td>
+                          <td className="px-3 py-2">
+                            <div className="relative inline-block text-left">
+                              <select
+                                value={app.current_status}
+                                onChange={e => updateStatus(app.id, e.target.value)}
+                                className="appearance-none px-2 py-1 border rounded-md bg-white"
+                              >
+                                {statuses.map(s => (
+                                  <option key={s} value={s}>{s}</option>
+                                ))}
+                              </select>
+                              <ChevronDownIcon className="absolute right-1 top-1.5 w-4 h-4 text-gray-600 pointer-events-none" />
+                            </div>
+                          </td>
+                          <td className="px-3 py-2">{app.passing_year}</td>
+                          <td className="px-3 py-2">
+                            <button
+                              onClick={() => window.location.href = `/applications/${app.id}`}
+                              className="flex items-center px-3 py-1 bg-green-500 text-white rounded-md"
+                            >
+                              <EyeIcon className="w-4 h-4 mr-1" /> View
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p className="mt-4 text-gray-500">No applications in "{status}".</p>
+                )}
+              </Tab.Panel>
+            );
+          })}
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   );
 }
