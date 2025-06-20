@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/api", applicationRoutes);
 
 app.get("/doneseen", (req, res) => {
-  res.json({ message: "pong" });
+  res.json({ message: "hello js" });
 });
 
 const PORT = process.env.PORT || 2200;

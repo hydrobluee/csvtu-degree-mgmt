@@ -1,12 +1,14 @@
 import db from "../db.js";
 
 export async function createApplication(data) {
+  const passingYear = Number(data.passing_year.split("-")[0]);
+  const assignedDept = passingYear > 2016 ? "MPCon" : "DegreeCell";
   const sql = `
     INSERT INTO applications
     (type, certificate_type, enrollment_number, branch, roll_number,
      student_name, passing_year, course, division, mobile, email,
-     fees_date, fee_status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     fees_date, fee_status, assigned_department, current_status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
   const params = [
     data.type,
@@ -22,6 +24,8 @@ export async function createApplication(data) {
     data.email,
     data.fees_date,
     "Pending",
+    assignedDept,
+    "To-Do",
   ];
   const [result] = await db.execute(sql, params);
   return result.insertId;

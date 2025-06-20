@@ -7,6 +7,7 @@ export default function StatusTracker() {
 
   const handleLookup = async (e) => {
     console.log("Looking up status for roll number:", rollNo);
+    console.log(rollNo);
     e.preventDefault();
     try {
       const res = await api.get(`/applications/roll/${rollNo}`);
