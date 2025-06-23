@@ -13,7 +13,14 @@ export default function StatusTracker() {
       const res = await api.get(`/applications/roll/${rollNo}`);
       console.log("Status response:", res.data);
       console.log(status);
-      setStatus(res.data.current_status);
+
+      const currentStatus = res.data.current_status;
+
+      if (currentStatus === "To-Do") {
+        setStatus("Submitted and Review pending");
+      } else {
+        setStatus(res.data.current_status);
+      }
     } catch {
       setStatus("Not found");
     }
