@@ -66,3 +66,9 @@ export async function updateStatus(id, newStatus, userId) {
   `;
   await db.execute(sqlHist, [id, newStatus, userId]);
 }
+
+export async function getAllApplications() {
+  const sql = `SELECT * FROM applications ORDER BY id DESC`;
+  const [rows] = await db.execute(sql);
+  return rows;
+}

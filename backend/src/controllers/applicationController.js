@@ -47,3 +47,13 @@ export async function updateStatus(req, res) {
     res.status(500).json({ error: "Update failed" });
   }
 }
+
+export async function getAllApplications(req, res) {
+  try {
+    const apps = await AppModel.getAllApplications();
+    res.json(apps);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Query failed" });
+  }
+}

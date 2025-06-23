@@ -1,24 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import api from '../services/api';
-import { Tab } from '@headlessui/react';
-import { ChevronDownIcon, EyeIcon } from 'lucide-react';
+import React, { useCallback, useEffect, useState } from "react";
+import api from "../services/api";
+import { Tab } from "@headlessui/react";
+import { ChevronDownIcon, EyeIcon } from "lucide-react";
 
-const statuses = ['To-Do', 'Print', 'Dispatch'];
+const statuses = ["To-Do", "Print", "Dispatch"];
 
 export default function DepartmentDashboard() {
-  const [apps, setApps] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [apps, setApps] = useState([]);
 
   useEffect(() => {
     fetchApps();
   }, []);
-
   const fetchApps = async () => {
     try {
-      const res = await api.get('/applications');
-      setApps(res.data || []);
+      const res = await api.get("/applications/all");
+      setApps(res.data);
     } catch (err) {
-      console.error('Failed to fetch applications:', err);
+      console.error("Failed to fetch applications:", err);
     }
   };
 
@@ -27,7 +26,7 @@ export default function DepartmentDashboard() {
       await api.put(`/applications/${id}`, { current_status: newStatus });
       fetchApps();
     } catch (err) {
-      console.error('Failed to update status:', err);
+      console.error("Failed to update status:", err);
     }
   };
 
@@ -37,12 +36,14 @@ export default function DepartmentDashboard() {
 
       <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <Tab.List className="flex space-x-2 mb-6">
-          {statuses.map(status => (
+          {statuses.map((status) => (
             <Tab
               key={status}
               className={({ selected }) =>
                 `px-4 py-2 font-medium rounded-lg transition-colors ${
-                  selected ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'
+                  selected
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700"
                 }`
               }
             >
@@ -54,7 +55,7 @@ export default function DepartmentDashboard() {
         <Tab.Panels>
           {statuses.map((status, idx) => {
             const filteredApps = apps.filter(
-              app => app.current_status === status
+              (app) => app.current_status === status
             );
 
             return (
@@ -74,7 +75,7 @@ export default function DepartmentDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredApps.map(app => (
+                      {filteredApps.map((app) => (
                         <tr key={app.id} className="border-t">
                           <td className="px-3 py-2">{app.type}</td>
                           <td className="px-3 py-2">{app.certificate_type}</td>
@@ -85,11 +86,15 @@ export default function DepartmentDashboard() {
                             <div className="relative inline-block text-left">
                               <select
                                 value={app.current_status}
-                                onChange={e => updateStatus(app.id, e.target.value)}
+                                onChange={(e) =>
+                                  updateStatus(app.id, e.target.value)
+                                }
                                 className="appearance-none px-2 py-1 border rounded-md bg-white"
                               >
-                                {statuses.map(s => (
-                                  <option key={s} value={s}>{s}</option>
+                                {statuses.map((s) => (
+                                  <option key={s} value={s}>
+                                    {s}
+                                  </option>
                                 ))}
                               </select>
                               <ChevronDownIcon className="absolute right-1 top-1.5 w-4 h-4 text-gray-600 pointer-events-none" />
@@ -98,7 +103,9 @@ export default function DepartmentDashboard() {
                           <td className="px-3 py-2">{app.passing_year}</td>
                           <td className="px-3 py-2">
                             <button
-                              onClick={() => window.location.href = `/applications/${app.id}`}
+                              onClick={() =>
+                                (window.location.href = `/applications/${app.id}`)
+                              }
                               className="flex items-center px-3 py-1 bg-green-500 text-white rounded-md"
                             >
                               <EyeIcon className="w-4 h-4 mr-1" /> View
@@ -109,7 +116,9 @@ export default function DepartmentDashboard() {
                     </tbody>
                   </table>
                 ) : (
-                  <p className="mt-4 text-gray-500">No applications in "{status}".</p>
+                  <p className="mt-4 text-gray-500">
+                    No applications in "{status}".
+                  </p>
                 )}
               </Tab.Panel>
             );
