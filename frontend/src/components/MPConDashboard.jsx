@@ -1,50 +1,59 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../services/api";
+import { Tab } from "@headlessui/react";
+import ApplicationTable from "./ApplicationTable";
+
+const STATUSES = ["To-Do", "Print", "Dispatch"];
 
 export default function MPConDashboard() {
   const [apps, setApps] = useState([]);
-  useEffect(() => {
-    fetchApps();
-  }, []);
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => void fetchApps(), []);
   const fetchApps = async () => {
-    const res = await api.get("/applications?status=Forwarded to MPCon");
-    setApps(res.data);
+    const { data } = await api.get("/applications/all");
+    setApps(data);
   };
   const updateStatus = async (id) => {
-    await api.put(`/applications/${id}`, {
-      currentStatus: "Ready for Dispatch",
-    });
+    await api.put(`/applications/${id}`, { current_status: "Dispatch" });
     fetchApps();
   };
+  const view = (id) => (window.location.href = `/applications/${id}`);
+
+  // only show passingYear > 2016
+  const filtered = apps.filter((a) => a.passing_year > 2016);
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-xl mb-4">MPCon Dashboard</h2>
-      <table className="w-full table-auto">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Enrollment</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {apps.map((a) => (
-            <tr key={a.id} className="border-t">
-              <td>{a.name}</td>
-              <td>{a.enrollmentNo}</td>
-              <td>
-                <button
-                  onClick={() => updateStatus(a.id)}
-                  className="px-2 py-1 bg-green-600 text-white rounded"
-                >
-                  Verify & Forward
-                </button>
-              </td>
-            </tr>
+    <div className="p-6">
+      <h1 className="text-2xl mb-4">MPCon Dashboard</h1>
+      <Tab.Group selectedIndex={idx} onChange={setIdx}>
+        <Tab.List className="flex space-x-2 mb-6">
+          {STATUSES.map((s) => (
+            <Tab
+              key={s}
+              className={({ selected }) =>
+                `px-4 py-2 rounded-lg ${
+                  selected ? "bg-blue-600 text-white" : "bg-gray-200"
+                }`
+              }
+            >
+              {s}
+            </Tab>
           ))}
-        </tbody>
-      </table>
+        </Tab.List>
+        <Tab.Panels>
+          {STATUSES.map((s) => (
+            <Tab.Panel key={s}>
+              <ApplicationTable
+                apps={filtered.filter((a) => a.current_status === s)}
+                statuses={STATUSES}
+                onStatusChange={updateStatus}
+                onView={view}
+              />
+            </Tab.Panel>
+          ))}
+        </Tab.Panels>
+      </Tab.Group>
     </div>
   );
 }
