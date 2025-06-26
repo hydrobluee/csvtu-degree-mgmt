@@ -7,14 +7,9 @@ export default function Navbar() {
         to="/"
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
       >
-        Student Form
+        Home
       </NavLink>
-      <NavLink
-        to="/status"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-      >
-        Check Status
-      </NavLink>
+
       <NavLink
         to="/degree-cell"
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
