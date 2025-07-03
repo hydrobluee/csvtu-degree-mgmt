@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import applicationRoutes from "./routes/applicationRoutes.js";
+import session from "express-session";
+import loginRoutes from "./routes/loginRoutes.js";
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +19,11 @@ app.use(
 app.use(express.json());
 
 app.use("/api", applicationRoutes);
+
+app.use(
+  session({ secret: "csvtu-secret", resave: false, saveUninitialized: false })
+);
+app.use("/api", loginRoutes);
 
 app.get("/doneseen", (req, res) => {
   res.json({ message: "hello js" });

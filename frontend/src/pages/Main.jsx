@@ -7,6 +7,7 @@ import MPConDashboard from "../components/MPConDashboard";
 import DispatchDashboard from "../components/DispatchDashboard";
 import Navbar from "./Navbar";
 import Home from "./Home";
+import Login from "../components/Login";
 
 function Main() {
   return (
@@ -21,6 +22,9 @@ function Main() {
           <Route path="/" element={<Home />} />
           <Route path="/student-form" element={<StudentForm />} />
           <Route path="/status" element={<StatusTracker />} />
+
+          <Route path="/login" element={<Login />} />
+
           <Route path="/degree-cell" element={<DegreeCellDashboard />} />
           <Route path="/mpcon" element={<MPConDashboard />} />
           <Route path="/dispatch" element={<DispatchDashboard />} />

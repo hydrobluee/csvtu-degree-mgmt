@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-72 text-center bg-gray-100 p-2">
-      <h1 className="text-5xl sm:text-4xl font-light text-gray-900 leading-tight">
+      <h1 className="text-5xl font-bold sm:text-4xl  text-gray-600 leading-tight">
         Degree Application Form/ Current Status
         <br />
         <span className="block"></span>

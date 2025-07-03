@@ -9,7 +9,6 @@ export default function Navbar() {
       >
         Home
       </NavLink>
-
       <NavLink
         to="/degree-cell"
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
@@ -28,6 +27,10 @@ export default function Navbar() {
       >
         Dispatch
       </NavLink>
+      //Via Login
+      <NavLink to="/login?role=DegreeCell">Degree</NavLink>
+      <NavLink to="/login?role=MPCon">MPCon</NavLink>
+      <NavLink to="/login?role=Dispatch">Dispatch</NavLink>
     </nav>
   );
 }
