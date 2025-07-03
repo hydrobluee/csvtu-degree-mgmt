@@ -16,6 +16,8 @@ router.post("/login", async (req, res) => {
 
     const match = await verifyPassword(password, user.password_hash);
     if (!match || user.role_name !== role) {
+      console.log("Roll Name", user.role_name);
+      console.log("Role", role);
       return res
         .status(401)
         .json({ success: false, message: "Invalid credentials" });

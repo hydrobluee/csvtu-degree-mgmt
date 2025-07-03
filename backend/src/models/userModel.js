@@ -11,6 +11,6 @@ export async function findUserByEmail(email) {
   return rows[0] || null;
 }
 
-export function verifyPassword(plain, hash) {
-  return bcrypt.compare(plain, hash);
+export async function verifyPassword(plain, hash) {
+  return await bcrypt.compare(plain, hash);
 }
