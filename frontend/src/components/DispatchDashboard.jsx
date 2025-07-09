@@ -2,35 +2,64 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import { Tab } from "@headlessui/react";
 import ApplicationTable from "./ApplicationTable";
+import ViewStudentData from "./ViewStudentData";
 
 const TABS = ["Dispatch", "Dispatched"];
 
 export default function DispatchDashboard() {
   const [apps, setApps] = useState([]);
-  const [checked, setChecked] = useState(new Set());
-  const [tab, setTab] = useState(0);
+  const [checkedIds, setCheckedIds] = useState(new Set());
+  const [tabIdx, setTabIdx] = useState(0);
 
-  useEffect(() => void fetchApps(), []);
+  // modal
+  const [showModal, setShowModal] = useState(false);
+  const [currentStudent, setCurrentStudent] = useState(null);
+
+  /* ───────────────────── fetch ───────────────────── */
   const fetchApps = async () => {
     const { data } = await api.get("/applications/all");
     setApps(data);
   };
-  const onCheck = (id) => {
-    const next = new Set(checked);
-    if (next.has(id)) next.delete(id);
-    else next.add(id);
-    setChecked(next);
-    // immediately mark dispatched
-    api
-      .put(`/applications/${id}`, { current_status: "Dispatched" })
-      .then(fetchApps);
-  };
-  const view = (id) => (window.location.href = `/applications/${id}`);
+  useEffect(() => {
+    fetchApps();
+  }, []);
 
+  /* ───────────────────── checkbox handler ───────────────────── */
+  const onCheck = async (id) => {
+    // optimistic move to Dispatched
+    setApps((prev) =>
+      prev.map((a) =>
+        a.id === id ? { ...a, current_status: "Dispatched" } : a
+      )
+    );
+    setCheckedIds((prev) => new Set(prev).add(id));
+
+    try {
+      await api.put(`/applications/${id}`, { current_status: "Dispatched" });
+    } catch (err) {
+      console.error("Failed to update:", err);
+      await fetchApps(); // rollback from server truth
+      setCheckedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }
+  };
+
+  /* ───────────────────── view modal ───────────────────── */
+  const handleView = (id) => {
+    const student = apps.find((a) => a.id === id);
+    setCurrentStudent(student);
+    setShowModal(true);
+  };
+
+  /* ────────────────────────── UI ────────────────────────── */
   return (
     <div className="p-6">
       <h1 className="text-2xl mb-4">Dispatch Dashboard</h1>
-      <Tab.Group selectedIndex={tab} onChange={setTab}>
+
+      <Tab.Group selectedIndex={tabIdx} onChange={setTabIdx}>
         <Tab.List className="flex space-x-2 mb-6">
           {TABS.map((t) => (
             <Tab
@@ -45,8 +74,9 @@ export default function DispatchDashboard() {
             </Tab>
           ))}
         </Tab.List>
+
         <Tab.Panels>
-          {TABS.map((t, i) => (
+          {TABS.map((t) => (
             <Tab.Panel key={t}>
               <ApplicationTable
                 apps={apps.filter((a) =>
@@ -54,18 +84,24 @@ export default function DispatchDashboard() {
                     ? a.current_status !== "Dispatched"
                     : a.current_status === "Dispatched"
                 )}
-                statuses={[]} // no status dropdown
-                onStatusChange={() => {}}
-                onView={view}
+                statuses={[]}
                 showStatusColumn={false}
                 showCheckbox={t === "Dispatch"}
                 onCheck={onCheck}
-                checkedIds={checked}
+                checkedIds={checkedIds}
+                onStatusChange={() => {}}
+                onView={handleView}
               />
             </Tab.Panel>
           ))}
         </Tab.Panels>
       </Tab.Group>
+
+      <ViewStudentData
+        isOpen={showModal}
+        student={currentStudent}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 }
