@@ -1,4 +1,3 @@
-// src/components/DegreeDashboard.jsx
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import { Tab } from "@headlessui/react";

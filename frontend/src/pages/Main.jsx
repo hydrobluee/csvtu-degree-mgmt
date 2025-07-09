@@ -9,6 +9,8 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import Login from "../components/Login";
 
+import PrivateRoute from "../components/PrivateRoute";
+
 function Main() {
   return (
     <div className="container mx-auto px-4 py-6">
@@ -16,21 +18,31 @@ function Main() {
       <Navbar />
 
       {/* ─── Page Card ────────────────────────────────── */}
-      <div className="bg-white p-6 rounded-2xl shadow-md">
-        <Routes>
-          {/* <Route path="/" element={<StudentForm />} /> */}
-          <Route path="/" element={<Home />} />
-          <Route path="/student-form" element={<StudentForm />} />
-          <Route path="/status" element={<StatusTracker />} />
+      <Routes>
+        {/* <Route path="/" element={<StudentForm />} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/student-form" element={<StudentForm />} />
+        <Route path="/status" element={<StatusTracker />} />
 
-          <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
 
-          <Route path="/degree-cell" element={<DegreeCellDashboard />} />
-          <Route path="/mpcon" element={<MPConDashboard />} />
-          <Route path="/dispatch" element={<DispatchDashboard />} />
-        </Routes>
-      </div>
+        {/* ─── Protected Routes 👇🏻  ────────────────────────── */}
+        {/* <Route element={<PrivateRoute requiredRole="DegreeCell" />}> */}
+        <Route path="/degree-cell" element={<DegreeCellDashboard />} />
+        {/* </Route> */}
+
+        {/* <Route element={<PrivateRoute requiredRole="MPCon" />}> */}
+        <Route path="/mpcon" element={<MPConDashboard />} />
+        {/* </Route> */}
+
+        {/* <Route element={<PrivateRoute requiredRole="Dispatch" />}> */}
+        <Route path="/dispatch" element={<DispatchDashboard />} />
+        {/* </Route> */}
+        {/* Protected Routes 👆🏻 ────────────────────────── */}
+      </Routes>
     </div>
+    //   </div>
+    // </div>
   );
 }
 export default Main;
