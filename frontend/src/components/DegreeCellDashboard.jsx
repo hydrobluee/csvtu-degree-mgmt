@@ -56,7 +56,7 @@ export default function DegreeDashboard() {
               key={s}
               className={({ selected }) =>
                 `px-4 py-2 rounded-lg ${
-                  selected ? "bg-blue-600 text-white" : "bg-gray-200"
+                  selected ? "bg-official-blue text-white" : "bg-gray-200"
                 }`
               }
             >

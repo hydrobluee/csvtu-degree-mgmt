@@ -1,10 +1,9 @@
 import { NavLink } from "react-router-dom";
-import Footer from "./Footer";
 
 function Home() {
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-20">
         <div className=" bg-white p-6 rounded-2xl w-sm md:w-2xl mt-10">
           <h1 className=" font-semibold  text-center mb-6 text-2xl md:text-3xl">
             Degree Application Form/ Current Status
@@ -19,7 +18,7 @@ function Home() {
           <div className="mt-8 flex space-x-4 justify-center">
             <NavLink
               to="/student-form"
-              className="px-3 py-2  md:px-4  md:pt-2 bg-blue-500 text-white font-bold  rounded hover:bg-blue-600 transition "
+              className="px-3 py-2  md:px-4  md:pt-2 bg-official-blue text-white font-bold  rounded hover:bg-blue-600 transition "
             >
               Student Form
             </NavLink>

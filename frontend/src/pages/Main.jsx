@@ -13,10 +13,7 @@ import PrivateRoute from "../components/PrivateRoute";
 
 function Main() {
   return (
-    <div className="container mx-auto px-4 py-6">
-      {/* ─── Navigation Pills ──────────────────────────── */}
-      <Navbar />
-
+    <div className="container mx-auto px-4 py-6 ">
       {/* ─── Page Card ────────────────────────────────── */}
       <Routes>
         {/* <Route path="/" element={<StudentForm />} /> */}

@@ -1,5 +1,4 @@
-import React from "react";
-import { ChevronDownIcon, EyeIcon, CheckIcon } from "lucide-react";
+import { ChevronDownIcon, EyeIcon } from "lucide-react";
 
 export default function ApplicationTable({
   apps,
@@ -14,7 +13,7 @@ export default function ApplicationTable({
   return (
     <table className="w-full table-auto border-collapse">
       <thead>
-        <tr className="bg-gray-100">
+        <tr className="bg-neutral-200 ">
           <th className="px-3 py-2">Type</th>
           <th className="px-3 py-2">Certificate Type</th>
           <th className="px-3 py-2">Roll No</th>

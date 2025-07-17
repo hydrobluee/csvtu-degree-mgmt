@@ -54,7 +54,7 @@ export default function MPConDashboard() {
               key={s}
               className={({ selected }) =>
                 `px-4 py-2 rounded-lg ${
-                  selected ? "bg-blue-600 text-white" : "bg-gray-200"
+                  selected ? "bg-blue-500 text-white" : "bg-gray-200"
                 }`
               }
             >

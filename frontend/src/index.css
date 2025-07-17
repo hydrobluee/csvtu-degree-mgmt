@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.bg-official-blue {
+  background-color: #00376c; /* Example color */
+}
+
+.text-official-blue {
+  color: #00376c; /* Example color */
+}
